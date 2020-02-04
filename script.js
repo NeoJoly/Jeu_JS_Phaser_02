@@ -19,8 +19,6 @@ var config = {
 
 var game = new Phaser.Game(config);
 
-<<<<<<< Updated upstream
-=======
 var J1boost;
 var J1sauveboost;
 var J2right;
@@ -33,7 +31,6 @@ var score1 = 0;
 var score2 = 0;
 var bonusapparition;
 
->>>>>>> Stashed changes
 function init() {
   var platforms;
   var player1;
@@ -65,8 +62,6 @@ function preload() {
   this.load.spritesheet('stop','assets/stop.png',{frameWidth: 20, frameHeight: 30});
   this.load.spritesheet('run','assets/run.png',{frameWidth: 21.8, frameHeight: 30});
   this.load.spritesheet('jump','assets/jump.png',{frameWidth: 25, frameHeight: 25});
-<<<<<<< Updated upstream
-=======
 
   // joueur 2
   this.load.image('head2','assets/head2.png');
@@ -81,7 +76,6 @@ function preload() {
   // bonus
   this.load.image('bonus','assets/bonus.png');
 
->>>>>>> Stashed changes
 }
 
 
@@ -90,20 +84,16 @@ function preload() {
 function create() {
   //this.add.image(760,475,'background');
   platforms = this.physics.add.staticGroup();
-<<<<<<< Updated upstream
 
   // placement plateformes
   platforms.create(100,590,'plateforme1');
   platforms.create(400,490,'plateforme2');
-=======
   platforms.create(100,609,'plateforme1');
   platforms.create(400,500,'plateforme2');
->>>>>>> Stashed changes
   platforms.create(700,390,'plateforme3');
   platforms.create(400,290,'plateforme4');
   platforms.create(700,190,'plateforme5');
   platforms.create(400,90,'plateforme6');
-<<<<<<< Updated upstream
 
   // placement fausses plateformes
   platforms.create(700,590,'fausseplateforme1');
@@ -111,13 +101,11 @@ function create() {
   platforms.create(100,190,'fausseplateforme3');
   platforms.create(500,590,'fausseplateforme4');
   platforms.create(300,590,'fausseplateforme5');
-=======
   platforms.create(700,609,'plateforme7');
   platforms.create(100,390,'plateforme8');
   platforms.create(100,190,'plateforme9');
   platforms.create(500,609,'plateforme10');
   platforms.create(300,609,'plateforme11');
->>>>>>> Stashed changes
 
   // joueur 1
   player1 = this.physics.add.sprite(100,400,'run');
@@ -152,8 +140,6 @@ function create() {
 
   // touches
   cursors = this.input.keyboard.createCursorKeys();
-<<<<<<< Updated upstream
-=======
   J1boost = this.input.keyboard.addKey('J');
   J2up = this.input.keyboard.addKey('Z');
   J2down = this.input.keyboard.addKey('S');
@@ -196,19 +182,16 @@ function collectingitem2 (player2, itemcollect) {
 
     score2 += 1;
     textscore2.setText(score2);
->>>>>>> Stashed changes
 }
 
 
 
 
 function update() {
-<<<<<<< Updated upstream
   if(cursors.right.isDown) {
     player1.setVelocityX(300);
     player1.anims.play('run', true);
     player1.setFlipX(false);
-=======
 
   // réapparition des items
   if (itemcollect.countActive(true) === 0) {
@@ -296,7 +279,6 @@ function update() {
       player1.anims.play('run', true);
       player1.setFlipX(false);
     }
->>>>>>> Stashed changes
   } else if (cursors.left.isDown) {
     if (J1boost.isDown && J1sauveboost == 1) {
       J1sauveboost = 0;
@@ -316,13 +298,10 @@ function update() {
     }
   }
 
-<<<<<<< Updated upstream
   if(cursors.up.isDown && player1.body.touching.down) {
     player1.setVelocityY(-575);
-=======
   if (cursors.up.isDown && player1.body.touching.down) {
     player1.setVelocityY(-600);
->>>>>>> Stashed changes
   } else if (cursors.down.isDown && !player1.body.touching.down) {
     player1.setVelocityY(2000);
     player1.anims.play('stop', true);
@@ -330,8 +309,7 @@ function update() {
   if (cursors.up.isDown && !player1.body.touching.down) {
     player1.anims.play('jump', true);
   }
-<<<<<<< Updated upstream
-=======
+
 
   // joueur 2
   if (J2boost.isUp) {
@@ -376,5 +354,4 @@ function update() {
   if (J2up.isDown && !player2.body.touching.down) {
     player2.anims.play('jump2', true);
   }
->>>>>>> Stashed changes
 }
