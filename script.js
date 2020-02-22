@@ -189,6 +189,11 @@ function collectingitem2 (player2, itemcollect) {
 
 function update() {
 
+  if(cursors.right.isDown) {
+    player1.setVelocityX(300);
+    player1.anims.play('run', true);
+    player1.setFlipX(false);
+
   // réapparition des items
   if (itemcollect.countActive(true) === 0) {
       var rdmy = Phaser.Math.Between(-50, 570);
@@ -292,6 +297,7 @@ function update() {
     player1.anims.play('stop', true);
     }
   }
+
 
   if (cursors.up.isDown && player1.body.touching.down) {
     player1.setVelocityY(-600);
