@@ -34,14 +34,22 @@ var bonusapparition;
 function init() {
   var platforms;
   var player1;
+  var head1;
+  var player2;
+  var head2;
   var cursors;
+  var textjoueur1;
+  var textjoueur2;
+  var textscore1;
+  var textscore2;
+  var textj1gagnant;
+  var textj2gagnant;
 }
 
 
 
 
 function preload() {
-  //this.load.image('background','assets/background.jpg');
 
   // plateformes
   this.load.image('plateforme1','assets/plateforme.jpg');
@@ -50,15 +58,14 @@ function preload() {
   this.load.image('plateforme4','assets/plateforme.jpg');
   this.load.image('plateforme5','assets/plateforme.jpg');
   this.load.image('plateforme6','assets/plateforme.jpg');
-
-  // fausses plateformes
-  this.load.image('fausseplateforme1','assets/fausseplateforme.jpg');
-  this.load.image('fausseplateforme2','assets/fausseplateforme.jpg');
-  this.load.image('fausseplateforme3','assets/fausseplateforme.jpg');
-  this.load.image('fausseplateforme4','assets/fausseplateforme.jpg');
-  this.load.image('fausseplateforme5','assets/fausseplateforme.jpg');
+  this.load.image('plateforme7','assets/plateforme.jpg');
+  this.load.image('plateforme8','assets/plateforme.jpg');
+  this.load.image('plateforme9','assets/plateforme.jpg');
+  this.load.image('plateforme10','assets/plateforme.jpg');
+  this.load.image('plateforme11','assets/plateforme.jpg');
 
   // joueur 1
+  this.load.image('head1','assets/head.png');
   this.load.spritesheet('stop','assets/stop.png',{frameWidth: 20, frameHeight: 30});
   this.load.spritesheet('run','assets/run.png',{frameWidth: 21.8, frameHeight: 30});
   this.load.spritesheet('jump','assets/jump.png',{frameWidth: 25, frameHeight: 25});
@@ -76,31 +83,31 @@ function preload() {
   // bonus
   this.load.image('bonus','assets/bonus.png');
 
+
+  // joueur 2
+  this.load.image('head2','assets/head2.png');
+  this.load.spritesheet('stop2','assets/stop2.png',{frameWidth: 20, frameHeight: 30});
+  this.load.spritesheet('run2','assets/run2.png',{frameWidth: 21.8, frameHeight: 30});
+  this.load.spritesheet('jump2','assets/jump2.png',{frameWidth: 25, frameHeight: 25});
+
+  // item collectable
+  this.load.image('itemcollect','assets/itemcollect.png');
+  this.load.image('itemscore','assets/itemscore.png');
+
 }
 
 
 
-
 function create() {
-  //this.add.image(760,475,'background');
-  platforms = this.physics.add.staticGroup();
 
-  // placement plateformes
-  platforms.create(100,590,'plateforme1');
-  platforms.create(400,490,'plateforme2');
+  // plateformes
+  platforms = this.physics.add.staticGroup();
   platforms.create(100,609,'plateforme1');
   platforms.create(400,500,'plateforme2');
   platforms.create(700,390,'plateforme3');
   platforms.create(400,290,'plateforme4');
   platforms.create(700,190,'plateforme5');
   platforms.create(400,90,'plateforme6');
-
-  // placement fausses plateformes
-  platforms.create(700,590,'fausseplateforme1');
-  platforms.create(100,390,'fausseplateforme2');
-  platforms.create(100,190,'fausseplateforme3');
-  platforms.create(500,590,'fausseplateforme4');
-  platforms.create(300,590,'fausseplateforme5');
   platforms.create(700,609,'plateforme7');
   platforms.create(100,390,'plateforme8');
   platforms.create(100,190,'plateforme9');
@@ -108,13 +115,30 @@ function create() {
   platforms.create(300,609,'plateforme11');
 
   // joueur 1
-  player1 = this.physics.add.sprite(100,400,'run');
+  this.add.image(20, 15, 'head1');
+  textjoueur1 = this.add.text(40, 10, 'Joueur 1', { fontSize: '15px', fill: '#fff' });
+  this.add.image(21, 40, 'itemscore');
+  textscore1 = this.add.text(40, 33, '0', { fontSize: '15px', fill: '#fff' });
+  player1 = this.physics.add.sprite(775,560,'stop');
+  player1.setFlipX(true);
   player1.setCollideWorldBounds(true);
   this.physics.add.collider(player1,platforms);
   //player1.setBounce(0.1);
   player1.body.setGravityY(500);
 
-  // animation stop
+  // joueur 2
+  this.add.image(780, 15, 'head2');
+  textjoueur2 = this.add.text(690, 10, 'Joueur 2', { fontSize: '15px', fill: '#fff' });
+  this.add.image(781, 40, 'itemscore');
+  textscore2 = this.add.text(753, 33, '0', { fontSize: '15px', fill: '#fff' });
+  player2 = this.physics.add.sprite(25,560,'stop2');
+  player2.setFlipX(false);
+  player2.setCollideWorldBounds(true);
+  this.physics.add.collider(player2,platforms);
+  //player2.setBounce(0.1);
+  player2.body.setGravityY(500);
+
+  // animation stop joueur 1
   this.anims.create ({
     key: 'stop',
     frames: this.anims.generateFrameNumbers('stop'),
@@ -122,7 +146,7 @@ function create() {
     repeat: -1
   })
 
-  // animation course
+  // animation course joueur 1
   this.anims.create ({
     key: 'run',
     frames: this.anims.generateFrameNumbers('run'),
@@ -130,10 +154,34 @@ function create() {
     repeat: -1
   })
 
-  // animation saut
+  // animation saut joueur 1
   this.anims.create ({
     key: 'jump',
     frames: this.anims.generateFrameNumbers('jump'),
+    frameRate: 10,
+    repeat: -1
+  })
+
+  // animation stop joueur 2
+  this.anims.create ({
+    key: 'stop2',
+    frames: this.anims.generateFrameNumbers('stop2'),
+    frameRate: 10,
+    repeat: -1
+  })
+
+  // animation course joueur 2
+  this.anims.create ({
+    key: 'run2',
+    frames: this.anims.generateFrameNumbers('run2'),
+    frameRate: 10,
+    repeat: -1
+  })
+
+  // animation saut joueur 2
+  this.anims.create ({
+    key: 'jump2',
+    frames: this.anims.generateFrameNumbers('jump2'),
     frameRate: 10,
     repeat: -1
   })
@@ -185,14 +233,72 @@ function collectingitem2 (player2, itemcollect) {
 }
 
 
+}
+
 
 
 function update() {
 
-  if(cursors.right.isDown) {
+  // réapparition des items
+  if (itemcollect.countActive(true) === 0) {
+      var rdmy = Phaser.Math.Between(-50, 570);
+      itemcollect = this.physics.add.group({
+        key: 'itemcollect',
+        repeat: 15,
+        setXY: { x: 25, y: rdmy, stepX: 50 },
+      });
+      this.physics.add.collider(itemcollect, platforms);
+      this.physics.add.overlap(player1, itemcollect, collectingitem1, null, this);
+      this.physics.add.overlap(player2, itemcollect, collectingitem2, null, this);
+      itemcollect.children.iterate(function (child) {
+
+        child.setBounceY(Phaser.Math.FloatBetween(0.9, 1));
+        child.setBounceX(Phaser.Math.FloatBetween(1, 1.1));
+        child.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        child.setCollideWorldBounds(true);
+
+    });
+  }
+
+  // le joueur 1 gagne
+  if (score1 === 100) {
+    this.physics.pause();
+    player1.setTint(0x00ff00);
+    player2.setTint(0xff0000);
+    gameOver = true;
+    textj1gagnant = this.add.text(90, 300, 'Le Joueur 1 a gagné !', { fontSize: '50px', fill: '#fff' });
+  }
+  // le joueur 2 gagne
+  if (score2 === 100) {
+    this.physics.pause();
+    player2.setTint(0x00ff00);
+    player1.setTint(0xff0000);
+    gameOver = true;
+    textj1gagnant = this.add.text(90, 300, 'Le Joueur 2 a gagné !', { fontSize: '50px', fill: '#fff' });
+  }
+
+  // scores update
+  function collectingitem1 (player1, itemcollect) {
+      itemcollect.disableBody(true, true);
+
+      score1 += 1;
+      textscore1.setText(score1);
+
+  }
+
+  function collectingitem2 (player2, itemcollect) {
+      itemcollect.disableBody(true, true);
+
+      score2 += 1;
+      textscore2.setText(score2);
+  }
+
+  // joueur 1
+  if (cursors.right.isDown) {
     player1.setVelocityX(300);
     player1.anims.play('run', true);
     player1.setFlipX(false);
+  }
 
   // réapparition des items
   if (itemcollect.countActive(true) === 0) {
@@ -229,6 +335,7 @@ function update() {
     });
     this.physics.add.overlap(player1, bonus, collectingbonus1, null, this);
     this.physics.add.overlap(player2, bonus, collectingbonus2, null, this);
+
   }*/
 
   // le joueur 1 gagne
@@ -297,7 +404,6 @@ function update() {
     player1.anims.play('stop', true);
     }
   }
-
 
   if (cursors.up.isDown && player1.body.touching.down) {
     player1.setVelocityY(-600);
